@@ -40,6 +40,7 @@ class App extends React.Component {
   }
   handleSubmit(event) {
     event.preventDefault();
+    let count= 0;
     this.data();
 
   }
