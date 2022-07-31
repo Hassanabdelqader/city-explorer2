@@ -52,7 +52,7 @@ class App extends React.Component {
     let url = this.state.url;
     let format = 'format=json';
     let query = key + search + format;
-    const arr = await axios.get(url + query).then(()=>{}).catch((err)=>{
+    const arr = await axios.get(url + query).catch((err)=>{
       if(err.response.status=== 400 || err.response.status=== 404|| err.response.status=== 500){
       alert(`NOt Founnd ${err.response.status}`)
       }
