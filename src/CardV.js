@@ -8,11 +8,15 @@ export default class CardV extends React.Component {
     super(props);
   
   }
+
+
   //datapro
     render(){
           return (
           <Card style={{ width: '18rem' }}>
             <Card.Body>
+            
+              <Card.Img variant="top" src={this.props.src} />
               <Card.Title>{this.props.datapro.display_name}</Card.Title>
               <Card.Text>
               
