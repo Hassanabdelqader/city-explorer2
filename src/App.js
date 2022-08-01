@@ -122,6 +122,7 @@ class App extends React.Component {
       url : 'https://eu1.locationiq.com/v1/search.php?',
     });
     this.data();
+    let c =0;
 
 }
     
