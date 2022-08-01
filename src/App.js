@@ -15,35 +15,17 @@ class App extends React.Component {
     this.state = {
       value: '',
       locationJSON: [],
-      url : 'https://us1.locationiq.com/v1/search.php?',
-      
-  urlMapfirst :`https://maps.locationiq.com/v3/staticmap?key=pk.4ec02d09293f1dae002d0d0cbfd4c232&center=`,
-  urlMapsecond : `&size=300x300&zoom=14`
-
-     
+      url : 'https://us1.locationiq.com/v1/search.php?',      
+      urlMapfirst :`https://maps.locationiq.com/v3/staticmap?key=pk.4ec02d09293f1dae002d0d0cbfd4c232&center=`,
+      urlMapsecond : `&size=800x400&zoom=8`,
+      count :0,
+      weatherData : []
 
     }
+    
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  renderAlert = () => {
-    return(
-    <Alert variant="danger">
-    <Alert.Heading>Hey, nice to see you</Alert.Heading>
-        <p>
-          Aww yeah, you successfully read this important alert message. This
-          example text is going to run a bit longer so that you can see how
-          spacing within an alert works with this kind of content.
-        </p>
-        <hr />
-        <p className="mb-0">
-          Whenever you need to, be sure to use margin utilities to keep things
-          nice and tidy.
-        </p>
-      </Alert>
-    )
- 
- }
 
   data = async () => {
 
@@ -52,14 +34,14 @@ class App extends React.Component {
     let url = this.state.url;
     let format = 'format=json';
     let query = key + search + format;
-    const arr = await axios.get(url + query).catch((err)=>{
-      if(err.response.status=== 400 || err.response.status=== 404|| err.response.status=== 500){
-      alert(`NOt Founnd ${err.response.status}`)
-      }
-    });
+    let obj = await axios.get(url + query);
+   // console.log(obj.data[0]);
     this.setState({
-      locationJSON: arr.data
+    locationJSON: obj.data[0]
+    
     });
+    //console.log(this.state.locationJSON)
+   
   }
 
   
@@ -69,20 +51,68 @@ class App extends React.Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    let count= 15;
+    
     this.data();
-
+    this.weather();
+   
   }
 
-// 
+  weather = async () => {
+    if(this.state.locationJSON){
+    
+      try {
+      let lat = this.state.locationJSON.lat;
+      let lon = this.state.locationJSON.lon;
+      let searchQuery =this.state.locationJSON.display_name;
+      console.log(this.state.value)
+      // let url = `http://localhost:3001/weather?lat=${lat}&lon=${lon}&searchQuery=${searchQuery}`;
+      let url = `http://localhost:3001/weather?lat=${lat}&lon=${lon}&searchQuery=${this.state.value}`;
+        let obj =await axios.get(url);
+        this.setState({
+          weatherData : obj.data.weather
+          
+          });
+
+         
+        
+                     
+    }catch (error) {
+      alert('no weather for this lcoation')
+    }
+  
+ 
+    
+   // console.log('from weather'+obj.data);
+  }else{
+    console.log('no data');
+  }
+    
+  }
+
+
   renderElemnt = () => {
-     let arr =this.state.locationJSON.map((element,index) =>
-     {
-     return <CardV datapro={element} key={index} src={this.state.urlMapfirst+element.lat + ','+ element.lon +
-     this.state.urlMapsecond} />
-     }
-     );
-    return arr;
+
+    if (this.state.locationJSON) {
+       return (
+      <>
+          <h1>{this.state.locationJSON.display_name}</h1>
+          {/* <h1>{console.log(this.state.weatherData)}</h1> */}
+          {/* <p>{this.state.locationJSON[0].display_name} </p> */}
+          <img src={this.state.urlMapfirst+this.state.locationJSON.lat +','+ this.state.locationJSON.lon + this.state.urlMapsecond} alt='pgggg' /> 
+       
+
+      </>
+    );
+    }
+    else{
+      return (
+        <>
+            <h1>nothing</h1>
+
+        </>
+      );
+    }
+   
   }
   change =(event)=>{
     (event.target.value)===0 ?
@@ -98,6 +128,7 @@ class App extends React.Component {
 
   render() {
     return (
+      <>
       <div className="App">
 
         <Form onSubmit={this.handleSubmit}>
@@ -119,18 +150,32 @@ class App extends React.Component {
         </div>
 
         <div>
+        {
+       // console.log(`from render ${this.state.weatherData}`)
+          this.renderElemnt()
+        }
+        <ul>
+         
           {
-            this.renderElemnt()
-          
+            <>
+            
+        {this.state.weatherData.map(element => (  
+          <li>  
+            {`${element.Date} \n ${element.Discription}`}  
+          </li>  
+        ))}  
+            
+             </>
           }
+          
+        
+         </ul>    
+        
+
         </div>
 
-
-
-            
- 
-
       </div>
+      </>
     );
   }
 }
