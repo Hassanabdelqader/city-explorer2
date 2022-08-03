@@ -12,6 +12,14 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+.codyElemtn{
+  display: flex;
+  justify-content: space-between;
+  margin: 3em;
+}
+li{
+  list-style-type: none;
+}
 
 .App-header {
   background-color: #282c34;
