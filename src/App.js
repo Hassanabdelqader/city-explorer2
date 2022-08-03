@@ -5,7 +5,7 @@ import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Alert from 'react-bootstrap/Alert';
 import Movies from './Component/Movies';
-import  Weather from "./Component/weather";
+import Weather from "./Component/weather";
 import './App.css';
 import CardV from './CardV';
 
@@ -16,7 +16,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       value: '',
-      
+
       url: 'https://us1.locationiq.com/v1/search.php?',
       urlMapfirst: `https://maps.locationiq.com/v3/staticmap?key=pk.4ec02d09293f1dae002d0d0cbfd4c232&center=`,
       urlMapsecond: `&size=800x400&zoom=8`,
@@ -39,16 +39,16 @@ class App extends React.Component {
     let url = this.state.url;
     let format = 'format=json';
     let query = key + search + format;
-   await axios.get(url + query).then((value)=>{
+    await axios.get(url + query).then((value) => {
       this.setState({
         locationJSON: value.data[0]
-  
+
       });
-      this.weather(value.data[0].lat,value.data[0].lon);
-    }).catch(()=>{
+      this.weather(value.data[0].lat, value.data[0].lon);
+    }).catch(() => {
       alert('No Data for this city')
     })
- 
+
   }
 
 
@@ -59,27 +59,27 @@ class App extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     this.setState({
-      value: event.target.value, 
-      moviesData: [] ,
-      locationJSON : [],
-      weatherData:[]
-     });
+      value: event.target.value,
+      moviesData: [],
+      locationJSON: [],
+      weatherData: []
+    });
     this.data();
     this.movies();
-    
+
 
   }
 
- 
 
-  weather = async (lat,lon) => {
+
+  weather = async (lat, lon) => {
     if (this.state.locationJSON) {
 
       try {
-        
-       let url1 =`https://hasanappcity.herokuapp.com/weather?lat=${lat}&lon=${lon}`;
+
+        let url1 = `https://hasanappcity.herokuapp.com/weather?lat=${lat}&lon=${lon}`;
         let obj = await axios.get(url1);
-    
+
         this.setState({
           weatherData: obj.data
         });
@@ -94,8 +94,8 @@ class App extends React.Component {
   }
 
 
- 
- 
+
+
 
   render() {
     return (
@@ -126,33 +126,28 @@ class App extends React.Component {
               this.renderElemnt()
             }
 
-            </div>
+          </div>
 
           <div className='codyElemtn' >
             <div className='div-movies'>
-            <ul>
+
               {
-                this.state.moviesData.map((element,index)=>(
-                  <li>
-                  <Movies movie={element} key={index}/>
-                  </li>
-                ))
+              <Movies movieList={this.state.moviesData} />
               }
-            </ul>
             </div>
-          
+
             <div className='div-Weather'>
-            <ul>
+              <ul>
                 {
-                  this.state.weatherData.map((element,index)=>(
+                  this.state.weatherData.map((element, index) => (
                     <li>
-                    <Weather weather={element} key={index} />
+                      <Weather weather={element} key={index} />
                     </li>
                   ))
                 }
               </ul>
             </div>
-</div>
+          </div>
         </div>
       </>
     );
@@ -165,13 +160,11 @@ class App extends React.Component {
 
   movies = async () => {
     try {
-      let searchQuery = this.state.value;
-      //http://localhost:3001/movies/?query=amman
-      //console.log(this.state.value)
+     
       let url = `https://hasanappcity.herokuapp.com/movies?query=${this.state.value}`;
       let obj = await axios.get(url);
-     // console.log(obj.data)
-      this.setState({      
+   
+      this.setState({
         moviesData: obj.data
       });
 
@@ -199,7 +192,7 @@ class App extends React.Component {
       return (
         <>
           <h1>{this.state.locationJSON.display_name}</h1>
-           <img src={this.state.urlMapfirst + this.state.locationJSON.lat + ',' + this.state.locationJSON.lon + this.state.urlMapsecond} alt='pgggg' />
+          <img src={this.state.urlMapfirst + this.state.locationJSON.lat + ',' + this.state.locationJSON.lon + this.state.urlMapsecond} alt='pgggg' />
 
 
         </>

@@ -1,7 +1,5 @@
-import { render } from "@testing-library/react"
-import React from "react"
-import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
+import React from "react";
+import CardMovie from "./CardMovie";
 
 export default class movies extends React.Component{
 
@@ -9,30 +7,26 @@ export default class movies extends React.Component{
         super(props)
 
         this.state={
-            movie : props.movie
+            movies : this.props.movieList
         }
+        console.log(this.props.movieList)
     }
 
 
     render(){
         return(
-            <>      
-            <Card style={{ width: '18rem' }}>
-            <Card.Title>{this.state.movie.title}</Card.Title>
-            <Card.Img variant="top" src={(this.state.movie.image_url == "http://image.tmdb.org/t/p/w500null")?`https://thumbs.dreamstime.com/b/no-image-available-icon-photo-camera-flat-vector-illustration-132483141.jpg`:this.state.movie.image_url} />
-            <Card.Body>  
-              <Card.Text>
+            
+            <ul>
+            {         
 
-                <p>{this.state.movie.overview}</p>
-                <h5>Votes : {this.state.movie.average_votes}</h5>
-                <h5>popularity : {this.state.movie.popularity}</h5>
-                <h5>Released Date :{this.state.movie.released_on}</h5>
-
-                
-              </Card.Text>
-            </Card.Body> 
-          </Card>
-          </>
+            this.props.movieList.map((element,index)=>(
+                <li>
+                <CardMovie movie={element} key={index}/>
+                </li>
+              ))
+            }  
+          </ul>
+           
         )
     
     }
