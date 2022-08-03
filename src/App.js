@@ -3,11 +3,9 @@ import Form from 'react-bootstrap/Form'
 import React from 'react';
 import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Alert from 'react-bootstrap/Alert';
 import Movies from './Component/Movies';
 import Weather from "./Component/weather";
 import './App.css';
-import CardV from './CardV';
 
 
 class App extends React.Component {
@@ -122,8 +120,7 @@ class App extends React.Component {
 
           <div>
             {
-              // console.log(`from render ${this.state.weatherData}`)
-              this.renderElemnt()
+               this.renderElemnt()
             }
 
           </div>
@@ -137,15 +134,9 @@ class App extends React.Component {
             </div>
 
             <div className='div-Weather'>
-              <ul>
-                {
-                  this.state.weatherData.map((element, index) => (
-                    <li>
-                      <Weather weather={element} key={index} />
-                    </li>
-                  ))
-                }
-              </ul>
+              {
+                <Weather weatherList={this.state.weatherData} />
+              }
             </div>
           </div>
         </div>

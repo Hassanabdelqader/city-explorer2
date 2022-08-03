@@ -1,6 +1,7 @@
 
 import React from "react"
 import Card from 'react-bootstrap/Card';
+import Cardweather from "./Cardweather";
 
 export default class Weather extends React.Component{
 
@@ -8,7 +9,7 @@ export default class Weather extends React.Component{
         super(props)
 
         this.state={
-            weather : props.weather
+            weather : props.weatherList
         }
     }
 
@@ -16,15 +17,15 @@ export default class Weather extends React.Component{
     render(){
         return(
             <>  
-           <Card border="success" style={{ width: '18rem' }}>
-            <Card.Header>{this.props.weather.Date}</Card.Header>
-            <Card.Body>
-            <Card.Title></Card.Title>
-            <Card.Text>
-            {this.state.weather.Discription}
-            </Card.Text>
-            </Card.Body>
-      </Card>
+          <ul>
+                {
+                  this.props.weatherList.map((element, index) => (
+                    <li>
+                      <Cardweather weatheritem={element} key={index} />
+                    </li>
+                  ))
+                }
+              </ul>
 
           </>
         )
