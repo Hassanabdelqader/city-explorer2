@@ -14,7 +14,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       value: '',
-
+      userInput:'',
       url: 'https://us1.locationiq.com/v1/search.php?',
       urlMapfirst: `https://maps.locationiq.com/v3/staticmap?key=pk.4ec02d09293f1dae002d0d0cbfd4c232&center=`,
       urlMapsecond: `&size=800x400&zoom=8`,
@@ -52,7 +52,7 @@ class App extends React.Component {
 
 
   handleChange(event) {
-    this.setState({ value: event.target.value });
+    this.setState({ userInput: event.target.value });
   }
   handleSubmit(event) {
     event.preventDefault();
@@ -63,12 +63,10 @@ class App extends React.Component {
       weatherData: []
     });
     this.data();
-    this.movies();
+   
 
 
   }
-
-
 
   weather = async (lat, lon) => {
     if (this.state.locationJSON) {
@@ -91,10 +89,6 @@ class App extends React.Component {
 
   }
 
-
-
-
-
   render() {
     return (
       <>
@@ -103,7 +97,7 @@ class App extends React.Component {
           <Form onSubmit={this.handleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Search </Form.Label>
-              <Form.Control type="text" value={this.state.value} onChange={this.handleChange} />
+              <Form.Control type="text" value={this.state.userInput} onChange={this.handleChange} />
             </Form.Group>
             <Button variant="primary" type="submit">
               Expplor!
@@ -129,7 +123,8 @@ class App extends React.Component {
             <div className='div-movies'>
 
               {
-              <Movies movieList={this.state.moviesData} />
+                this.state.value &&
+              <Movies search={this.state.value} />
               }
             </div>
 
@@ -149,21 +144,7 @@ class App extends React.Component {
 
 
 
-  movies = async () => {
-    try {
-     
-      let url = `https://hasanappcity.herokuapp.com/movies?query=${this.state.value}`;
-      let obj = await axios.get(url);
-   
-      this.setState({
-        moviesData: obj.data
-      });
-
-    } catch (error) {
-      alert('no MOvied for this lcoation')
-    }
-  }
-
+  
 
   change = (event) => {
     (event.target.value) === 0 ?
