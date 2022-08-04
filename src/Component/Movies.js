@@ -3,16 +3,6 @@ import CardMovie from "./CardMovie";
 
 export default class movies extends React.Component{
 
-    constructor(props){
-        super(props)
-
-        this.state={
-            movies : this.props.movieList
-        }
-        console.log(this.props.movieList)
-    }
-
-
     render(){
         return(
             
@@ -20,7 +10,7 @@ export default class movies extends React.Component{
             {         
 
             this.props.movieList.map((element,index)=>(
-                <li>
+                <li key={index}>
                 <CardMovie movie={element} key={index}/>
                 </li>
               ))
