@@ -24,8 +24,8 @@ export default class Weather extends React.Component{
             {this.state.weather.Discription}
             </Card.Text>
             </Card.Body>
-      </Card>
-
+           </Card>
+            
           </>
         )
     
