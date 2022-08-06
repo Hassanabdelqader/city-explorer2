@@ -1,11 +1,37 @@
 .App {
   text-align: center;
+  
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
+.fuiaAj {
+  color: white !important;
+}
+.SearchForAny{
+  color: white !important;
+}
+.mb-3{
+  margin-top: 3rem !important;
+  margin-left: 5rem;
+  margin-right: 5rem;
+}
+.form-control{
+  text-align: center;
+}
+.card{
+  margin-bottom: 3rem;
+}
+.title-Card{
+  color: white;
+}
+.img-dog{
+  padding-bottom: 3rem;
+  border-radius: 10rem;
+}
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -20,7 +46,12 @@
 li{
   list-style-type: none;
 }
-
+.div-img h1{
+  color: white;
+}
+.div-img img{
+ border-radius: 2em;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -44,3 +75,5 @@ li{
     transform: rotate(360deg);
   }
 }
+
+

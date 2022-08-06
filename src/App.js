@@ -2,14 +2,19 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
 import React from 'react';
 import axios from "axios";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Spinner from 'react-bootstrap/Spinner';
 import Movies from './Component/Movies';
+import Dog from './Component/dog';
 import Weather from "./Component/weather";
 import './App.css';
-import Alert from 'react-bootstrap/Alert';
+import AnimatedText from 'react-animated-text-content';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
+import NavBar from './Component/NavBar';
+import Footer from './Component/Footer';
 <link rel="stylesheet" href="sweetalert2.min.css"></link>
+
 
 
 class App extends React.Component {
@@ -17,9 +22,11 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      dogDataArr : [],
       value: '',
       userInput:'',
       flag : false,
+      dog :false,
       alert:false,
       url: 'https://us1.locationiq.com/v1/search.php?',
       urlMapfirst: `https://maps.locationiq.com/v3/staticmap?key=pk.4ec02d09293f1dae002d0d0cbfd4c232&center=`,
@@ -96,12 +103,14 @@ class App extends React.Component {
       Spinner:true,
       moviesData: [],
       locationJSON: [],
-      weatherData: []
+      weatherData: [],
+      dog : true
     });
     
     
     this.data();
     this.movies();
+    this.dogs();
  }
 
 
@@ -111,7 +120,7 @@ class App extends React.Component {
 
       try {
 
-        let url1 = `http://localhost:3003/weather?lat=${lat}&lon=${lon}&query=${this.state.value}`;
+        let url1 = `https://hasanappcity.herokuapp.com/weather?lat=${lat}&lon=${lon}&query=${this.state.value}`;
         let obj = await axios.get(url1);
 
         this.setState({
@@ -127,17 +136,14 @@ class App extends React.Component {
 
   }
 
- 
-
-
   render() {
     return (
       <>
+
         <div className="App">
-  
+        <NavBar />
           <Form onSubmit={this.handleSubmit}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Search </Form.Label>
               <Form.Control type="text" value={this.state.value} onChange={this.handleChange}  required/>
             </Form.Group>
             <Button variant="primary" type="submit">
@@ -147,7 +153,7 @@ class App extends React.Component {
 
               }
             
-              Expplor!
+              Search!
             </Button>
           </Form>
 
@@ -162,41 +168,61 @@ class App extends React.Component {
           </div>
 
           <div className='codyElemtn' >
-            <div className='div-movies'>
+          <div className='div-movies'>
 
               {
               this.state.moviesData.length >0 &&
               <Movies movieList={this.state.moviesData} />
+    
               }
-            </div>
+              </div>
 
-            <div className='div-Weather'>
+              <div className='div-Weather'>
               <ul>
-                {
-                  this.state.weatherData.map((element, index) => (
-                    <li key={index}>
-                      <Weather weather={element} key={index} />
-                    </li>
-                  ))
+             
+             { this.state.weatherData.length >0 &&
+                <h4 className='title-Card' >{`the weathers ...`}</h4>
                 }
-              </ul>
-            </div>
-          </div>
+              {
+               
+                this.state.weatherData.map((element, index) => (
+                  <li key={index}>
+                    <Weather weather={element} key={index} />
+                  </li>
+                ))
+              }
+            </ul>
+              </div>
+          <div className ='div-dog' />
+          <div className='innerDogDiv'>
+               {
+                this.state.dog &&
+                <h4 className='title-Card' >{`Dogs Images random...`}</h4>
+              
+              }
+              {
+                this.state.dog &&
+                 <Dog listDog = {this.state.dogDataArr}/>
+              }
+              </div>
+               
+              </div>
+          
+              </div>
+         
+        <div className='Footer'>
+        <Footer />
+
         </div>
       </>
     );
   }
 
 
-
-
-
- 
-
   movies = async () => {
 
      
-      let url = `http://localhost:3003/movies?query=${this.state.value}`;
+      let url = `https://hasanappcity.herokuapp.com/movies?query=${this.state.value}`;
       await axios.get(url).then((value)=>{
        
             this.setState({
@@ -210,23 +236,51 @@ class App extends React.Component {
  
   }
 
+  dogs = async () => {
+
+     
+    let url = `https://hasanappcity.herokuapp.com/dog`;
+    await axios.get(url).then((value)=>{
+     
+          this.setState({
+            dogDataArr: value.data
+        });
+    }).catch((err)=>{
+      alert(err + 'Dogs Function')
+    });
+
+}
+
   renderElemnt = () => {
  
     if (this.state.flag && this.state.locationJSON.lat&& this.state.locationJSON.lon) {
       return (
-        <>
+        <div className='div-img'>
           <h1>{this.state.locationJSON.display_name}</h1>
           <img src={this.state.urlMapfirst + this.state.locationJSON.lat+ ',' + this.state.locationJSON.lon+ this.state.urlMapsecond} alt='Map' />
 
 
-        </>
+        </div>
       );
     }
     else {
       return (
         <>
-          <h1>Search For AnyThing !!</h1>
-
+        <h1 className='SearchForAny'>
+              <AnimatedText
+              type='chars'
+              interval={0.09}
+              duration={0.83}
+                animation={{
+                y: '100px',
+                ease: 'ease',
+                scale: 7.96,
+                
+              }}
+            >
+            Search For Anything 
+          </AnimatedText>
+      </h1>
         </>
       );
     }
