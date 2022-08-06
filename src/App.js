@@ -9,7 +9,6 @@ import Movies from './Component/Movies';
 import Dog from './Component/dog';
 import Weather from "./Component/weather";
 import './App.css';
-import AnimatedText from 'react-animated-text-content';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import NavBar from './Component/NavBar';
 import Footer from './Component/Footer';
@@ -91,7 +90,7 @@ class App extends React.Component {
 
 
   handleChange(event) {
-
+let count = 0;
     this.setState({ value: event.target.value });
   }
   
@@ -267,19 +266,9 @@ class App extends React.Component {
       return (
         <>
         <h1 className='SearchForAny'>
-              <AnimatedText
-              type='chars'
-              interval={0.09}
-              duration={0.83}
-                animation={{
-                y: '100px',
-                ease: 'ease',
-                scale: 7.96,
-                
-              }}
-            >
+        
             Search For Anything 
-          </AnimatedText>
+    
       </h1>
         </>
       );
