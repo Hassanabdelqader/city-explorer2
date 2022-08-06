@@ -120,7 +120,7 @@ class App extends React.Component {
 
       try {
 
-        let url1 = `http://localhost:3003/weather?lat=${lat}&lon=${lon}&query=${this.state.value}`;
+        let url1 = `https://hasanappcity.herokuapp.com/weather?lat=${lat}&lon=${lon}&query=${this.state.value}`;
         let obj = await axios.get(url1);
 
         this.setState({
@@ -222,7 +222,7 @@ class App extends React.Component {
   movies = async () => {
 
      
-      let url = `http://localhost:3003/movies?query=${this.state.value}`;
+      let url = `https://hasanappcity.herokuapp.com/movies?query=${this.state.value}`;
       await axios.get(url).then((value)=>{
        
             this.setState({
@@ -239,7 +239,7 @@ class App extends React.Component {
   dogs = async () => {
 
      
-    let url = `http://localhost:3003/dog`;
+    let url = `https://hasanappcity.herokuapp.com/dog`;
     await axios.get(url).then((value)=>{
      
           this.setState({
